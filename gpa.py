@@ -1,28 +1,41 @@
-import sys, itertools, numpy
+import sys, itertools
 # 외부 라이브러리(numpy 사용불가)
 
-# 2h
+# 3.5h
 
 N, K = map(int,input().split())
 
 S = []
-PG = []
+F = []
+f = 0
+A = []
+B = []
+j = 0
 
 S.append(input().split())
+print(S)
 S = list(itertools.chain(*S))
+print(S)
 S = list(map(int, S))
+print(S)
 
 if len(S) == N:
     for i in range(K):
-        A, B = map(int, input().split())
-        if A > N or A < 1 or B > N or B < 1:
+        a, b = map(int, input().split())
+        A.append(a), B.append(b)
+        if A[i] > N or A[i] < 1 or B[i] > N or B[i] < 1:
             ValueError
         else:
-            PG.append(numpy.mean(S[A-1:B]))
-            # type(S[i])는 str 이를 활용해 mean을 계산하려면 int화 시켜줘야돼
+            for j in range(B[i] - A[i] + 1):
+                T = S[A[i]-1+j]
+                f += T
+            PG = f / (B[i] - A[i] + 1)
+            F.append(PG)
+            f = 0
+
 else:
     print("잘못된 개수를 입력했습니다.")
     ValueError
 
-for i in range(K):
-    print(round(PG[i],2))
+for k in range(K):
+    print('{:.2f}'.format(F[k]))
